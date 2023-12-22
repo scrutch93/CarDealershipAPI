@@ -168,7 +168,8 @@ public class JDBCVehicleDao implements VehicleDao {
                 String fuelType = resultSet.getString("fuel_type");
                 String transmissionType = resultSet.getString("transmission_type");
 
-
+                Vehicle vehicle = new Vehicle(vehicleId,year,  mileage,  sold,  VIN,  make,  model,  color,  fuelType,  transmissionType);
+                vehicleList.add(vehicle);
             }
 
         } catch (SQLException e) {
@@ -181,8 +182,83 @@ public class JDBCVehicleDao implements VehicleDao {
     }
 
     @Override
-    public List<Vehicle> getVehicleByColor() {
-        return null;
+    public List<Vehicle> getVehicleByColor(String color) {
+        List<Vehicle> vehicleList = new ArrayList<>();
+
+        String sql = "SELECT * FROM vehicles \n" +
+                "WHERE Color = ?;";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int vehicleId = resultSet.getInt("vehicle_id");
+                int year = resultSet.getInt("year");
+                int mileage = resultSet.getInt("mileage");
+                int sold = resultSet.getInt("SOLD");
+
+                String VIN = resultSet.getString("VIN");
+                String make = resultSet.getString("make");
+                String model = resultSet.getString("model");
+                String colorPick = resultSet.getString("Color");
+                String fuelType = resultSet.getString("fuel_type");
+                String transmissionType = resultSet.getString("transmission_type");
+
+                Vehicle vehicle = new Vehicle(vehicleId,year,  mileage,  sold,  VIN,  make,  model,  colorPick,  fuelType,  transmissionType);
+                vehicleList.add(vehicle);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return vehicleList;
+
+    }
+
+    @Override
+    public List<Vehicle> getVehicleByMileRange(int minMiles, int maxMiles) {
+        List<Vehicle> vehicleList = new ArrayList<>();
+
+        String sql = "SELECT * FROM vehicles \n" +
+                "WHERE mileage BETWEEN ? AND ?;";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1,minMiles);
+            preparedStatement.setInt(2,maxMiles);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int vehicleId = resultSet.getInt("vehicle_id");
+                int year = resultSet.getInt("year");
+                int mileage = resultSet.getInt("mileage");
+                int sold = resultSet.getInt("SOLD");
+
+                String VIN = resultSet.getString("VIN");
+                String make = resultSet.getString("make");
+                String model = resultSet.getString("model");
+                String color = resultSet.getString("Color");
+                String fuelType = resultSet.getString("fuel_type");
+                String transmissionType = resultSet.getString("transmission_type");
+
+                Vehicle vehicle = new Vehicle(vehicleId,year,  mileage,  sold,  VIN,  make,  model,  color,  fuelType,  transmissionType);
+                vehicleList.add(vehicle);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return vehicleList;
+
+
+
+
+
     }
 
     @Override

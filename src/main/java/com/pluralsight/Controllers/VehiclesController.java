@@ -40,6 +40,40 @@ public class VehiclesController {
         return vehicles;
     }
 
+    @RequestMapping(path = "/vehicles/{make}/{model}", method = RequestMethod.GET)
+    public List<Vehicle> getVehicleByMakeModel(
+            @PathVariable String make,
+            @PathVariable String model
+    ) throws SQLException {
+        List<Vehicle> vehicles = dao.getVehicleByMakeModel(make, model);
+        return vehicles;
+    }
+
+    @RequestMapping(path = "/vehicles/{color}", method = RequestMethod.GET)
+    public List<Vehicle> getVehicleByMakeModel(
+            @PathVariable String color
+    ) throws SQLException {
+        List<Vehicle> vehicles = dao.getVehicleByColor(color);
+        return vehicles;
+    }
+
+    @RequestMapping(path = "/vehicles/{menYear}/{maxYear}", method = RequestMethod.GET)
+    public List<Vehicle> getVehicleByYearRange(
+            @PathVariable int minYear,
+            @PathVariable int maxYear
+    ) throws SQLException {
+        List<Vehicle> vehicles = dao.getVehicleByYearRange(minYear, maxYear);
+        return vehicles;
+    }
+
+    @RequestMapping(path = "/vehicles/{minMiles}/{maxMiles}", method = RequestMethod.GET)
+    public List<Vehicle> getVehicleByMileageRange(
+            @PathVariable int minMiles,
+            @PathVariable int maxMiles
+    ) throws SQLException {
+        List<Vehicle> vehicles = dao.getVehicleByMileRange(minMiles, maxMiles);
+        return vehicles;
+    }
 
 
 }

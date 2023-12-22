@@ -12,7 +12,9 @@ public interface VehicleDao {
 
     public List<Vehicle> getVehicleByYearRange(int minYear, int maxYear);
 
-    public List<Vehicle> getVehicleByColor();
+    public List<Vehicle> getVehicleByColor(String color);
+
+    public List<Vehicle> getVehicleByMileRange(int minMiles, int maxMiles);
 
     public List<Vehicle> getVehicleByType();
 
