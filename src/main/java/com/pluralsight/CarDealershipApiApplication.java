@@ -1,4 +1,4 @@
-package com.pluralsight.Views;
+package com.pluralsight;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
