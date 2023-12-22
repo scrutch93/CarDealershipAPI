@@ -3,11 +3,9 @@ package com.pluralsight.Controllers;
 import com.pluralsight.Models.Vehicle;
 import com.pluralsight.Models.VehicleDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.sql.SQLException;
@@ -31,7 +29,7 @@ public class VehiclesController {
         return vehicles;
     }
 
-    @RequestMapping(path = "/vehicles/{minPrice}/{maxPrice}", method = RequestMethod.GET)
+    @RequestMapping(path = "/vehicles/priceSearch/{minPrice}/{maxPrice}", method = RequestMethod.GET)
     public List<Vehicle> getVehicleByPrice(
             @PathVariable double minPrice,
             @PathVariable double maxPrice
@@ -40,7 +38,7 @@ public class VehiclesController {
         return vehicles;
     }
 
-    @RequestMapping(path = "/vehicles/{make}/{model}", method = RequestMethod.GET)
+    @RequestMapping(path = "/vehicles/makeModelSearch/{make}/{model}", method = RequestMethod.GET)
     public List<Vehicle> getVehicleByMakeModel(
             @PathVariable String make,
             @PathVariable String model
@@ -49,15 +47,15 @@ public class VehiclesController {
         return vehicles;
     }
 
-    @RequestMapping(path = "/vehicles/{color}", method = RequestMethod.GET)
-    public List<Vehicle> getVehicleByMakeModel(
+    @RequestMapping(path = "/vehicles/colorSearch/{color}", method = RequestMethod.GET)
+    public List<Vehicle> getVehicleByColor(
             @PathVariable String color
     ) throws SQLException {
         List<Vehicle> vehicles = dao.getVehicleByColor(color);
         return vehicles;
     }
 
-    @RequestMapping(path = "/vehicles/{menYear}/{maxYear}", method = RequestMethod.GET)
+    @RequestMapping(path = "/vehicles/yearSearch/{minYear}/{maxYear}", method = RequestMethod.GET)
     public List<Vehicle> getVehicleByYearRange(
             @PathVariable int minYear,
             @PathVariable int maxYear
@@ -66,13 +64,26 @@ public class VehiclesController {
         return vehicles;
     }
 
-    @RequestMapping(path = "/vehicles/{minMiles}/{maxMiles}", method = RequestMethod.GET)
+    @RequestMapping(path = "/vehicles/mileageSearch/{minMiles}/{maxMiles}", method = RequestMethod.GET)
     public List<Vehicle> getVehicleByMileageRange(
             @PathVariable int minMiles,
             @PathVariable int maxMiles
     ) throws SQLException {
         List<Vehicle> vehicles = dao.getVehicleByMileRange(minMiles, maxMiles);
         return vehicles;
+    }
+
+    @RequestMapping(path="/vehicles/added",method=RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public Vehicle addVehicle (
+            @RequestBody Vehicle vehicle
+    )
+    {
+        // the insert method of the DAO should return
+        // a Employee object with the new id that was generated
+        Vehicle newVehicle = dao.addVehicle(vehicle);
+        // return the new supplier object
+        return newVehicle;
     }
 
 

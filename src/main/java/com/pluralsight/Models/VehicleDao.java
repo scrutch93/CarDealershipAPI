@@ -18,7 +18,7 @@ public interface VehicleDao {
 
     public List<Vehicle> getVehicleByType();
 
-    public Vehicle addVehicle();
+    public Vehicle addVehicle(Vehicle vehicle);
 
     public Vehicle removeVehicle();
 

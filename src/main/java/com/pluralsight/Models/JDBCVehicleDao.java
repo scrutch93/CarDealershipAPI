@@ -266,9 +266,37 @@ public class JDBCVehicleDao implements VehicleDao {
         return null;
     }
 
+
+
     @Override
-    public Vehicle addVehicle() {
-        return null;
+    public Vehicle addVehicle(Vehicle vehicle) {
+
+        String insert = "INSERT INTO vehicles (year,  mileage,  sold,  VIN,  make,  model,  Color,  fuel_type,  transmission_type) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = dataSource.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(insert)) {
+
+                statement.setInt(2, vehicle.getYear());
+                statement.setInt(3, vehicle.getMileage());
+                statement.setInt(4, vehicle.getSold());
+                statement.setString(5,vehicle.getVIN());
+                statement.setString(6, vehicle.getMake());
+                statement.setString(7,vehicle.getModel());
+                statement.setString(8,vehicle.getColor());
+                statement.setString(9, vehicle.getFuelType());
+                statement.setString(10,vehicle.getTransmissionType());
+
+
+
+
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        return vehicle;
     }
 
     @Override
